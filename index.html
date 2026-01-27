@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Interface Project - Teams</title>
+  <style>
+    /* General Styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    h1, h2 {
+      color: #333;
+      text-align: center;
+    }
+
+    .form-wrapper {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .form-section {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .form-section h2 {
+      text-align: center;
+      color: #0056b3;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input, select {
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 100%;
+    }
+
+    .flex-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    button {
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .table-container {
+      margin-top: 20px;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      text-align: left;
+      padding: 12px;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .filters {
+      margin-top: 20px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    /* Hide/show filters */
+    .filters-content {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .filters-content.show {
+      display: block;
+    }
+
+    /* Modal overlay for target viewer */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 9999;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      background: white;
+      width: min(1000px, 100%);
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid #ddd;
+      background: #f7f7f7;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .modal-body {
+      padding: 12px;
+    }
+
+    .modal-body canvas {
+      width: 100%;
+      height: 520px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      display: block;
+      background: #fff;
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      padding: 12px 16px;
+      border-top: 1px solid #ddd;
+      background: #f7f7f7;
+    }
+
+    .btn-secondary {
+      background: #666;
+    }
+
+    .btn-secondary:hover {
+      background: #444;
+    }
+
+    .btn-small {
+      padding: 7px 10px;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Voltage Calculator</h1>
+
+    <!-- Team Sections -->
+    <div class="form-wrapper">
+      <!-- Team #1 Section -->
+      <div class="form-section">
+        <h2>Team #1</h2>
+        <form id="team1-form">
+          <label>
+            MGRS Position:
+            <input type="text" id="team1-mgrs" placeholder="Enter MGRS Position" required />
+          </label>
+          <label>
+            Line of Bearing (LOB):
+            <input type="number" id="team1-lob" placeholder="Enter LOB" required />
+          </label>
+          <label>
+            Frequency:
+            <input type="text" id="team1-frequency" placeholder="Enter Frequency" required />
+          </label>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+
+      <!-- Team #2 Section -->
+      <div class="form-section">
+        <h2>Team #2</h2>
+        <form id="team2-form">
+          <label>
+            MGRS Position:
+            <input type="text" id="team2-mgrs" placeholder="Enter MGRS Position" required />
+          </label>
+          <label>
+            Line of Bearing (LOB):
+            <input type="number" id="team2-lob" placeholder="Enter LOB" required />
+          </label>
+          <label>
+            Frequency:
+            <input type="text" id="team2-frequency" placeholder="Enter Frequency" required />
+          </label>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Targets Feature -->
+    <div class="table-container">
+      <h2>Targets</h2>
+      <table id="targets-table">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>MGRS</th>
+            <th>Frequency</th>
+            <th>LOB Count</th>
+            <th>View</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Targets will be dynamically added here -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Filters Section -->
+    <div class="filters">
+      <h2>Filter Data</h2>
+
+      <button type="button" id="toggle-filters-btn">Filter Data</button>
+
+      <div id="filters-content" class="filters-content">
+        <!-- Start Time and End Time Filter -->
+        <div class="flex-row">
+          <label>
+            Start Time:
+            <input type="time" id="filter-start-time" />
+          </label>
+          <label>
+            End Time:
+            <input type="time" id="filter-end-time" />
+          </label>
+        </div>
+
+        <!-- LOB Start, LOB End, and MGRS Filter -->
+        <div class="flex-row">
+          <label>
+            LOB Start:
+            <input type="number" id="filter-lob-start" placeholder="Start" />
+          </label>
+          <label>
+            LOB End:
+            <input type="number" id="filter-lob-end" placeholder="End" />
+          </label>
+          <label>
+            MGRS Position:
+            <input type="text" id="filter-mgrs" placeholder="Filter MGRS" />
+          </label>
+        </div>
+
+        <!-- Frequency + Team Filter (same row) -->
+        <div class="flex-row">
+          <label>
+            Frequency:
+            <input type="text" id="filter-frequency" placeholder="Filter by Frequency" />
+          </label>
+
+          <label>
+            Team:
+            <select id="filter-team">
+              <option value="">All Teams</option>
+              <option value="Team #1">Team #1</option>
+              <option value="Team #2">Team #2</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="button-group">
+          <button type="button" id="filter-btn">Apply Filters</button>
+          <button type="button" id="reset-filters-btn">Reset Filters</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Table -->
+    <div class="table-container">
+      <h2>Signal Database</h2>
+      <table id="data-table">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Team</th>
+            <th>MGRS Position</th>
+            <th>Line of Bearing (LOB)</th>
+            <th>Frequency</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Data will be dynamically added here -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Download and Clear Cache Buttons -->
+    <div class="button-group">
+      <button id="download-btn">Download as CSV</button>
+      <button id="clear-cache-btn">Clear Cache</button>
+    </div>
+  </div>
+
+  <!-- Modal for Target Viewer -->
+  <div id="target-modal-overlay" class="modal-overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Target Viewer">
+      <div class="modal-header">
+        <h3 id="target-modal-title">Target Viewer</h3>
+        <button type="button" id="close-target-modal" class="btn-secondary btn-small">Close</button>
+      </div>
+      <div class="modal-body">
+        <canvas id="target-canvas" width="1000" height="520"></canvas>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="redraw-target-modal" class="btn-secondary btn-small">Redraw</button>
+        <button type="button" id="close-target-modal-2" class="btn-secondary btn-small">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MGRS conversion library (required for Targets) -->
+  <script src="https://unpkg.com/mgrs/dist/mgrs.min.js"></script>
+
+  <script>
+    const LOCAL_STORAGE_KEY = 'cachedData';
+    let cachedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+
+    const team1Form = document.getElementById('team1-form');
+    const team2Form = document.getElementById('team2-form');
+    const filterBtn = document.getElementById('filter-btn');
+    const resetFiltersBtn = document.getElementById('reset-filters-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const clearCacheBtn = document.getElementById('clear-cache-btn');
+    const dataTable = document.getElementById('data-table').querySelector('tbody');
+
+    const targetsTableBody = document.getElementById('targets-table').querySelector('tbody');
+
+    // Toggle Filters
+    const toggleFiltersBtn = document.getElementById('toggle-filters-btn');
+    const filtersContent = document.getElementById('filters-content');
+
+    toggleFiltersBtn.addEventListener('click', function () {
+      filtersContent.classList.toggle('show');
+    });
+
+    function renderTable(data) {
+      dataTable.innerHTML = '';
+      data.forEach(({ time, team, mgrs, lob, frequency }) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${time}</td>
+          <td>${team}</td>
+          <td>${mgrs}</td>
+          <td>${lob}</td>
+          <td>${frequency}</td>
+        `;
+        dataTable.appendChild(row);
+      });
+    }
+
+    function submitData(team, mgrsId, lobId, frequencyId) {
+      const mgrs = document.getElementById(mgrsId).value.trim();
+      const lob = parseFloat(document.getElementById(lobId).value);
+      const frequency = document.getElementById(frequencyId).value.trim();
+      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+
+      if (!mgrs || isNaN(lob) || !frequency) {
+        alert('Please fill all fields.');
+        return;
+      }
+
+      const newEntry = { time, team, mgrs, lob, frequency };
+      cachedData.push(newEntry);
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(cachedData));
+
+      document.getElementById(mgrsId).value = mgrs;
+      document.getElementById(lobId).value = '';
+      document.getElementById(frequencyId).value = '';
+
+      renderTable(cachedData);
+      updateTargets();
+    }
+
+    team1Form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      submitData('Team #1', 'team1-mgrs', 'team1-lob', 'team1-frequency');
+    });
+
+    team2Form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      submitData('Team #2', 'team2-mgrs', 'team2-lob', 'team2-frequency');
+    });
+
+    function applyFilters() {
+      const startTime = document.getElementById('filter-start-time').value;
+      const endTime = document.getElementById('filter-end-time').value;
+      const lobStart = parseFloat(document.getElementById('filter-lob-start').value);
+      const lobEnd = parseFloat(document.getElementById('filter-lob-end').value);
+      const mgrsFilter = document.getElementById('filter-mgrs').value.trim();
+      const freqFilter = document.getElementById('filter-frequency').value.trim();
+      const teamFilter = document.getElementById('filter-team').value;
+
+      const startMinutes = startTime ? parseInt(startTime.split(':')[0]) * 60 + parseInt(startTime.split(':')[1]) : null;
+      const endMinutes = endTime ? parseInt(endTime.split(':')[0]) * 60 + parseInt(endTime.split(':')[1]) : null;
+
+      const filtered = cachedData.filter(({ time, lob, frequency, mgrs, team }) => {
+        const [hours, minutes] = time.split(':').map(Number);
+        const entryMinutes = hours * 60 + minutes;
+
+        return (!startMinutes || entryMinutes >= startMinutes) &&
+               (!endMinutes || entryMinutes <= endMinutes) &&
+               (isNaN(lobStart) || lob >= lobStart) &&
+               (isNaN(lobEnd) || lob <= lobEnd) &&
+               (freqFilter ? String(frequency).includes(freqFilter) : true) &&
+               (mgrsFilter ? String(mgrs).includes(mgrsFilter) : true) &&
+               (teamFilter ? team === teamFilter : true);
+      });
+
+      renderTable(filtered);
+    }
+
+    filterBtn.addEventListener('click', applyFilters);
+
+    resetFiltersBtn.addEventListener('click', function () {
+      document.getElementById('filter-start-time').value = '';
+      document.getElementById('filter-end-time').value = '';
+      document.getElementById('filter-lob-start').value = '';
+      document.getElementById('filter-lob-end').value = '';
+      document.getElementById('filter-mgrs').value = '';
+      document.getElementById('filter-frequency').value = '';
+      document.getElementById('filter-team').value = '';
+      renderTable(cachedData);
+    });
+
+    clearCacheBtn.addEventListener('click', function () {
+      if (confirm('Are you sure you want to clear all cached data?')) {
+        cachedData = [];
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+        renderTable(cachedData);
+        updateTargets();
+      }
+    });
+
+    downloadBtn.addEventListener('click', function () {
+      if (!cachedData.length) {
+        alert('No data to download.');
+        return;
+      }
+
+      const headers = ['Time', 'Team', 'MGRS Position', 'Line of Bearing (LOB)', 'Frequency'];
+      const csvContent = [headers.join(','), ...cachedData.map(entry =>
+        `${entry.time},${entry.team},${entry.mgrs},${entry.lob},${entry.frequency}`
+      )].join('\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `cached_data.csv`;
+      a.click();
+
+      URL.revokeObjectURL(url);
+    });
+
+    // -----------------------------
+    // Targets Logic
+    // -----------------------------
+    const LOB_LENGTH_METERS = 50 * 1609.344; // 50 miles
+    const FREQ_TOL = 0.25;
+    const MIN_ANGLE_DEG = 5;
+    const MERGE_INTERSECTION_METERS = 100; // within 100m is same target
+
+    function normalizeAngle(deg) {
+      let a = deg % 360;
+      if (a < 0) a += 360;
+      return a;
+    }
+
+    function angleDiffDeg(a, b) {
+      const d = Math.abs(normalizeAngle(a) - normalizeAngle(b)) % 360;
+      return d > 180 ? 360 - d : d;
+    }
+
+    function parseFreq(val) {
+      const m = String(val).match(/-?\d+(\.\d+)?/);
+      return m ? parseFloat(m[0]) : NaN;
+    }
+
+    // Web Mercator projection helpers
+    const R = 6378137;
+
+    function lonLatToMercatorMeters(lon, lat) {
+      const x = R * (lon * Math.PI / 180);
+      const y = R * Math.log(Math.tan(Math.PI / 4 + (lat * Math.PI / 180) / 2));
+      return { x, y };
+    }
+
+    function mercatorMetersToLonLat(x, y) {
+      const lon = (x / R) * 180 / Math.PI;
+      const lat = (2 * Math.atan(Math.exp(y / R)) - Math.PI / 2) * 180 / Math.PI;
+      return { lon, lat };
+    }
+
+    function mgrsToXY(mgrsStr) {
+      const ll = window.mgrs.toPoint(String(mgrsStr).trim()); // [lon, lat]
+      return lonLatToMercatorMeters(ll[0], ll[1]);
+    }
+
+    function xyToMgrs(x, y) {
+      const { lon, lat } = mercatorMetersToLonLat(x, y);
+      return window.mgrs.forward([lon, lat], 5);
+    }
+
+    function segmentFromEntry(entry) {
+      const p = mgrsToXY(entry.mgrs);
+      const az = normalizeAngle(parseFloat(entry.lob));
+      const rad = az * Math.PI / 180;
+
+      // azimuth: 0 = north (+y), 90 = east (+x)
+      const dx = Math.sin(rad);
+      const dy = Math.cos(rad);
+
+      const x2 = p.x + dx * LOB_LENGTH_METERS;
+      const y2 = p.y + dy * LOB_LENGTH_METERS;
+
+      return { x1: p.x, y1: p.y, x2, y2 };
+    }
+
+    function segmentIntersection(segA, segB) {
+      const x1 = segA.x1, y1 = segA.y1, x2 = segA.x2, y2 = segA.y2;
+      const x3 = segB.x1, y3 = segB.y1, x4 = segB.x2, y4 = segB.y2;
+
+      const denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+      if (Math.abs(denom) < 1e-9) return null;
+
+      const px = ((x1*y2 - y1*x2) * (x3 - x4) - (x1 - x2) * (x3*y4 - y3*x4)) / denom;
+      const py = ((x1*y2 - y1*x2) * (y3 - y4) - (y1 - y2) * (x3*y4 - y3*x4)) / denom;
+
+      function within(a, b, p) {
+        return p >= Math.min(a, b) - 1e-6 && p <= Math.max(a, b) + 1e-6;
+      }
+
+      if (!within(x1, x2, px) || !within(y1, y2, py) || !within(x3, x4, px) || !within(y3, y4, py)) {
+        return null;
+      }
+
+      return { x: px, y: py };
+    }
+
+    function distMeters(a, b) {
+      return Math.hypot(a.x - b.x, a.y - b.y);
+    }
+
+    function timeToSortableMinutes(t) {
+      const parts = String(t).split(':');
+      const h = parseInt(parts[0], 10);
+      const m = parseInt(parts[1], 10);
+      if (isNaN(h) || isNaN(m)) return Number.MAX_SAFE_INTEGER;
+      return h * 60 + m;
+    }
+
+    // Stores last computed targets so the View buttons can reference them
+    let lastTargets = [];
+
+    function updateTargets() {
+      if (!window.mgrs || typeof window.mgrs.toPoint !== 'function') {
+        targetsTableBody.innerHTML = '';
+        lastTargets = [];
+        return;
+      }
+
+      const entries = [];
+      for (let i = 0; i < cachedData.length; i++) {
+        const e = cachedData[i];
+        const f = parseFreq(e.frequency);
+        const lob = parseFloat(e.lob);
+
+        if (!Number.isFinite(f) || !Number.isFinite(lob)) continue;
+
+        try { mgrsToXY(e.mgrs); } catch (err) { continue; }
+
+        entries.push({ ...e, _idx: i, _freqNum: f, _lobNum: lob });
+      }
+
+      const targets = []; // {point, freq, entryIdxSet, times}
+      for (let i = 0; i < entries.length; i++) {
+        for (let j = i + 1; j < entries.length; j++) {
+          const a = entries[i];
+          const b = entries[j];
+
+          if (Math.abs(a._freqNum - b._freqNum) > FREQ_TOL) continue;
+          if (angleDiffDeg(a._lobNum, b._lobNum) <= MIN_ANGLE_DEG) continue;
+
+          let inter = null;
+          try {
+            const segA = segmentFromEntry(a);
+            const segB = segmentFromEntry(b);
+            inter = segmentIntersection(segA, segB);
+          } catch (err) {
+            inter = null;
+          }
+          if (!inter) continue;
+
+          const freqMid = (a._freqNum + b._freqNum) / 2;
+
+          let merged = null;
+          for (const t of targets) {
+            if (Math.abs(t.freq - freqMid) <= FREQ_TOL && distMeters(t.point, inter) <= MERGE_INTERSECTION_METERS) {
+              merged = t;
+              break;
+            }
+          }
+
+          if (!merged) {
+            merged = {
+              point: inter,
+              freq: freqMid,
+              entryIdxSet: new Set(),
+              times: new Set()
+            };
+            targets.push(merged);
+          }
+
+          merged.entryIdxSet.add(a._idx);
+          merged.entryIdxSet.add(b._idx);
+          merged.times.add(a.time);
+          merged.times.add(b.time);
+        }
+      }
+
+      const filteredTargets = targets
+        .filter(t => t.entryIdxSet.size >= 2)
+        .map(t => {
+          let mgrsOut = '';
+          try { mgrsOut = xyToMgrs(t.point.x, t.point.y); } catch (err) { mgrsOut = 'MGRS ERROR'; }
+          const timesSorted = Array.from(t.times).sort((a, b) => timeToSortableMinutes(a) - timeToSortableMinutes(b));
+          return {
+            point: t.point,
+            freq: t.freq,
+            mgrs: mgrsOut,
+            lobCount: t.entryIdxSet.size,
+            entryIdxs: Array.from(t.entryIdxSet),
+            timesSorted
+          };
+        });
+
+      lastTargets = filteredTargets;
+
+      targetsTableBody.innerHTML = '';
+      filteredTargets.forEach((t, idx) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${t.timesSorted.join(', ')}</td>
+          <td>${t.mgrs}</td>
+          <td>${t.freq.toFixed(2)}</td>
+          <td>${t.lobCount}</td>
+          <td><button type="button" class="btn-small" data-target-index="${idx}">View</button></td>
+        `;
+        targetsTableBody.appendChild(row);
+      });
+    }
+
+    // -----------------------------
+    // Target Viewer (Canvas Modal)
+    // -----------------------------
+    const modalOverlay = document.getElementById('target-modal-overlay');
+    const closeModalBtn = document.getElementById('close-target-modal');
+    const closeModalBtn2 = document.getElementById('close-target-modal-2');
+    const redrawBtn = document.getElementById('redraw-target-modal');
+    const modalTitle = document.getElementById('target-modal-title');
+    const canvas = document.getElementById('target-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let currentTargetIndex = null;
+
+    function openModal() {
+      modalOverlay.classList.add('show');
+      modalOverlay.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove('show');
+      modalOverlay.setAttribute('aria-hidden', 'true');
+      currentTargetIndex = null;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    closeModalBtn.addEventListener('click', closeModal);
+    closeModalBtn2.addEventListener('click', closeModal);
+
+    modalOverlay.addEventListener('click', function (e) {
+      if (e.target === modalOverlay) closeModal();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modalOverlay.classList.contains('show')) closeModal();
+    });
+
+    redrawBtn.addEventListener('click', function () {
+      if (currentTargetIndex !== null) drawTargetOverlay(currentTargetIndex);
+    });
+
+    targetsTableBody.addEventListener('click', function (e) {
+      const btn = e.target.closest('button[data-target-index]');
+      if (!btn) return;
+      const idx = parseInt(btn.getAttribute('data-target-index'), 10);
+      if (!Number.isFinite(idx)) return;
+      currentTargetIndex = idx;
+      openModal();
+      drawTargetOverlay(idx);
+    });
+
+    function drawTargetOverlay(targetIndex) {
+      const t = lastTargets[targetIndex];
+      if (!t) return;
+
+      modalTitle.textContent = `Target Viewer — ${t.mgrs} — Freq ${t.freq.toFixed(2)} — LOBs ${t.lobCount}`;
+
+      // Only essentials: intersection + original MGRS points + short LOBs (cut off)
+      const obs = t.entryIdxs.map(i => cachedData[i]).filter(Boolean);
+
+      const origins = [];
+      for (const o of obs) {
+        try {
+          const p = mgrsToXY(o.mgrs);
+          origins.push({ x: p.x, y: p.y, label: `${o.team} ${o.time}` });
+        } catch (err) {
+          // skip invalid
+        }
+      }
+
+      const intersection = t.point;
+
+      // Center the view on the intersection.
+      // Use radius based on farthest origin distance from intersection (with padding).
+      let maxD = 0;
+      for (const p of origins) {
+        maxD = Math.max(maxD, distMeters(p, intersection));
+      }
+      // Minimum radius so it doesn't zoom too far in; also add padding
+      const radius = Math.max(500, maxD * 1.25); // meters
+
+      const minX = intersection.x - radius;
+      const maxX = intersection.x + radius;
+      const minY = intersection.y - radius;
+      const maxY = intersection.y + radius;
+
+      const worldW = maxX - minX;
+      const worldH = maxY - minY;
+
+      const W = canvas.width;
+      const H = canvas.height;
+
+      const scale = Math.min(W / worldW, H / worldH);
+
+      function worldToCanvas(p) {
+        const cx = (p.x - minX) * scale;
+        const cy = H - (p.y - minY) * scale;
+        return { x: cx, y: cy };
+      }
+
+      // Clear
+      ctx.clearRect(0, 0, W, H);
+
+      // Draw a faint crosshair at the center (intersection-centered view)
+      const ic = worldToCanvas(intersection);
+      ctx.save();
+      ctx.globalAlpha = 0.15;
+      ctx.beginPath();
+      ctx.moveTo(ic.x, 0);
+      ctx.lineTo(ic.x, H);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(0, ic.y);
+      ctx.lineTo(W, ic.y);
+      ctx.stroke();
+      ctx.restore();
+
+      // Draw short LOB lines: from origin toward intersection, but cut off (no full 50mi ray)
+      // We'll draw only up to the intersection (or stop a tiny bit short so the dot is visible).
+      ctx.save();
+      ctx.lineWidth = 2;
+      origins.forEach((p) => {
+        const a = worldToCanvas(p);
+        const b = worldToCanvas(intersection);
+
+        // stop short by 10px so intersection marker stands out
+        const vx = b.x - a.x;
+        const vy = b.y - a.y;
+        const len = Math.hypot(vx, vy);
+        let bx = b.x, by = b.y;
+        if (len > 12) {
+          bx = b.x - (vx / len) * 10;
+          by = b.y - (vy / len) * 10;
+        }
+
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(bx, by);
+        ctx.stroke();
+      });
+      ctx.restore();
+
+      // Draw origin points + labels
+      ctx.save();
+      ctx.font = '12px Arial';
+      ctx.textBaseline = 'top';
+      origins.forEach((p) => {
+        const c = worldToCanvas(p);
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, 5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillText(p.label, c.x + 8, c.y + 6);
+      });
+      ctx.restore();
+
+      // Draw intersection point (big + labeled)
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(ic.x, ic.y, 9, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.font = '13px Arial';
+      ctx.fillText('Intersection', ic.x + 12, ic.y + 12);
+      ctx.restore();
+    }
+
+    // Initial render
+    renderTable(cachedData);
+    updateTargets();
+  </script>
+</body>
+</html>
