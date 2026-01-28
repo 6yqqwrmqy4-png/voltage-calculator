@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HTML Interface Project - Teams</title>
   <style>
     /* General Styling */
@@ -60,12 +60,14 @@
       border: 1px solid #ccc;
       border-radius: 4px;
       width: 100%;
+      box-sizing: border-box;
     }
 
     .flex-row {
       display: flex;
       justify-content: space-between;
       gap: 10px;
+      align-items: flex-start;
     }
 
     button {
@@ -79,6 +81,19 @@
 
     button:hover {
       background-color: #0056b3;
+    }
+
+    .btn-secondary {
+      background: #666;
+    }
+
+    .btn-secondary:hover {
+      background: #444;
+    }
+
+    .btn-small {
+      padding: 7px 10px;
+      font-size: 13px;
     }
 
     .table-container {
@@ -115,6 +130,14 @@
       display: flex;
       gap: 10px;
       margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    .controls-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 10px;
     }
 
     /* Hide/show filters */
@@ -125,6 +148,76 @@
 
     .filters-content.show {
       display: block;
+    }
+
+    /* Hide/show settings */
+    .settings-content {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .settings-content.show {
+      display: block;
+    }
+
+    /* Calibration table styling */
+    .settings-block {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 10px;
+      background: #fafafa;
+    }
+
+    .settings-block h3 {
+      margin: 0 0 10px 0;
+      font-size: 15px;
+      color: #333;
+    }
+
+    .cal-table-wrap {
+      overflow-x: auto;
+    }
+
+    .cal-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+    }
+
+    .cal-table th, .cal-table td {
+      border: 1px solid #eee;
+      padding: 8px;
+      vertical-align: middle;
+      font-size: 13px;
+    }
+
+    .cal-table th {
+      background: #f0f0f0;
+      color: #333;
+      white-space: nowrap;
+    }
+
+    .cal-table input {
+      margin: 0;
+      width: 100%;
+      padding: 6px 8px;
+      font-size: 13px;
+    }
+
+    .cal-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tiny-note {
+      font-size: 12px;
+      color: #555;
+      margin-top: 6px;
     }
 
     /* Modal overlay for target viewer */
@@ -179,6 +272,40 @@
       background: #fff;
     }
 
+    .distances-panel {
+      margin-top: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      background: #fafafa;
+    }
+
+    .distances-panel h4 {
+      margin: 0 0 8px 0;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .distances-panel table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .distances-panel th,
+    .distances-panel td {
+      border: 1px solid #eee;
+      padding: 8px 10px;
+      font-size: 13px;
+    }
+
+    .distances-panel th {
+      background: #f0f0f0;
+      color: #333;
+    }
+
     .modal-footer {
       display: flex;
       gap: 10px;
@@ -186,19 +313,6 @@
       padding: 12px 16px;
       border-top: 1px solid #ddd;
       background: #f7f7f7;
-    }
-
-    .btn-secondary {
-      background: #666;
-    }
-
-    .btn-secondary:hover {
-      background: #444;
-    }
-
-    .btn-small {
-      padding: 7px 10px;
-      font-size: 13px;
     }
   </style>
 </head>
@@ -208,41 +322,47 @@
 
     <!-- Team Sections -->
     <div class="form-wrapper">
-      <!-- Team #1 Section -->
       <div class="form-section">
         <h2>Team #1</h2>
         <form id="team1-form">
           <label>
-            MGRS Position:
+            MGRS Position (Grid Zone XXXX XXXX):
             <input type="text" id="team1-mgrs" placeholder="Enter MGRS Position" required />
           </label>
           <label>
-            Line of Bearing (LOB):
+            Line of Bearing (Degrees):
             <input type="number" id="team1-lob" placeholder="Enter LOB" required />
           </label>
           <label>
-            Frequency:
+            Frequency (MHz):
             <input type="text" id="team1-frequency" placeholder="Enter Frequency" required />
+          </label>
+          <label>
+            Received Signal Strength Indicator (RSSI):
+            <input type="text" id="team1-rssi" placeholder="Enter RSSI" required />
           </label>
           <button type="submit">Submit</button>
         </form>
       </div>
 
-      <!-- Team #2 Section -->
       <div class="form-section">
         <h2>Team #2</h2>
         <form id="team2-form">
           <label>
-            MGRS Position:
+            MGRS Position (Grid Zone XXXX XXXX):
             <input type="text" id="team2-mgrs" placeholder="Enter MGRS Position" required />
           </label>
           <label>
-            Line of Bearing (LOB):
+            Line of Bearing (Degrees):
             <input type="number" id="team2-lob" placeholder="Enter LOB" required />
           </label>
           <label>
-            Frequency:
+            Frequency (MHz):
             <input type="text" id="team2-frequency" placeholder="Enter Frequency" required />
+          </label>
+          <label>
+            Received Signal Strength Indicator (RSSI):
+            <input type="text" id="team2-rssi" placeholder="Enter RSSI" required />
           </label>
           <button type="submit">Submit</button>
         </form>
@@ -262,20 +382,18 @@
             <th>View</th>
           </tr>
         </thead>
-        <tbody>
-          <!-- Targets will be dynamically added here -->
-        </tbody>
+        <tbody></tbody>
       </table>
     </div>
 
-    <!-- Filters Section -->
+    <!-- Filters + Settings -->
     <div class="filters">
-      <h2>Filter Data</h2>
-
-      <button type="button" id="toggle-filters-btn">Filter Data</button>
+      <div class="controls-row">
+        <button type="button" id="toggle-filters-btn">Filter Data</button>
+        <button type="button" id="toggle-settings-btn">Settings</button>
+      </div>
 
       <div id="filters-content" class="filters-content">
-        <!-- Start Time and End Time Filter -->
         <div class="flex-row">
           <label>
             Start Time:
@@ -287,7 +405,6 @@
           </label>
         </div>
 
-        <!-- LOB Start, LOB End, and MGRS Filter -->
         <div class="flex-row">
           <label>
             LOB Start:
@@ -303,7 +420,6 @@
           </label>
         </div>
 
-        <!-- Frequency + Team Filter (same row) -->
         <div class="flex-row">
           <label>
             Frequency:
@@ -325,6 +441,50 @@
           <button type="button" id="reset-filters-btn">Reset Filters</button>
         </div>
       </div>
+
+      <div id="settings-content" class="settings-content">
+
+        <!-- ROT -->
+        <div class="settings-block">
+          <h3>ROT</h3>
+          <div class="flex-row">
+            <label style="flex:1;">
+              ROT (0-9):
+              <input type="number" id="settings-rot" placeholder="0" min="0" max="9" inputmode="numeric" />
+            </label>
+          </div>
+          <div class="tiny-note">ROT adjusts only the numeric part of MGRS after the grid zone (e.g., 18SUJ stays unchanged).</div>
+        </div>
+
+        <!-- Calibration -->
+        <div class="settings-block">
+          <h3>Calibration</h3>
+
+          <div class="cal-table-wrap">
+            <table class="cal-table">
+              <thead>
+                <tr>
+                  <th>Frequency Start</th>
+                  <th>Frequency End</th>
+                  <th>System</th>
+                  <th>5km</th>
+                  <th>10km</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="calibration-tbody"></tbody>
+            </table>
+          </div>
+
+          <div class="cal-actions">
+            <button type="button" id="calibration-add-btn" class="btn-secondary btn-small">Add</button>
+            <button type="button" id="calibration-clear-btn" class="btn-secondary btn-small">Clear Calibration</button>
+          </div>
+
+          <div class="tiny-note">Add creates a new row. Update saves that row into localStorage.</div>
+        </div>
+
+      </div>
     </div>
 
     <!-- Data Table -->
@@ -338,11 +498,10 @@
             <th>MGRS Position</th>
             <th>Line of Bearing (LOB)</th>
             <th>Frequency</th>
+            <th>RSSI</th>
           </tr>
         </thead>
-        <tbody>
-          <!-- Data will be dynamically added here -->
-        </tbody>
+        <tbody></tbody>
       </table>
     </div>
 
@@ -362,6 +521,11 @@
       </div>
       <div class="modal-body">
         <canvas id="target-canvas" width="1000" height="520"></canvas>
+
+        <div class="distances-panel" id="target-distance-panel">
+          <h4>Distances to Intersection</h4>
+          <div id="target-distance-list"></div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" id="redraw-target-modal" class="btn-secondary btn-small">Redraw</button>
@@ -370,34 +534,212 @@
     </div>
   </div>
 
-  <!-- MGRS conversion library (required for Targets) -->
+  <!-- MGRS conversion library -->
   <script src="https://unpkg.com/mgrs/dist/mgrs.min.js"></script>
 
   <script>
+    // -----------------------------
+    // Storage Keys
+    // -----------------------------
     const LOCAL_STORAGE_KEY = 'cachedData';
-    let cachedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+    const ROT_STORAGE_KEY = 'settingsROT';
+    const CAL_STORAGE_KEY = 'calibrationRows';
 
+    // -----------------------------
+    // App Data
+    // -----------------------------
+    let cachedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+    let calibrationRows = JSON.parse(localStorage.getItem(CAL_STORAGE_KEY)) || [];
+
+    // -----------------------------
+    // ROT helpers
+    // -----------------------------
+    function getRot() {
+      const raw = localStorage.getItem(ROT_STORAGE_KEY);
+      const n = raw === null ? 0 : parseInt(raw, 10);
+      if (!Number.isFinite(n)) return 0;
+      return Math.min(9, Math.max(0, n));
+    }
+
+    function setRot(val) {
+      const n = parseInt(val, 10);
+      const safe = Number.isFinite(n) ? Math.min(9, Math.max(0, n)) : 0;
+      localStorage.setItem(ROT_STORAGE_KEY, String(safe));
+      return safe;
+    }
+
+    // ROT applies only after the MGRS prefix (e.g., 18SUJ)
+    function applyRotToMgrs(mgrsStr, rot) {
+      const r = Number(rot);
+      const shift = Number.isFinite(r) ? ((Math.trunc(r) % 10) + 10) % 10 : 0;
+      const s = String(mgrsStr).trim();
+      if (shift === 0) return s;
+
+      const m = s.match(/^(\d{1,2}[C-HJ-NP-X][A-HJ-NP-Z]{2})(.*)$/i);
+      if (m) {
+        const prefix = m[1];
+        const rest = m[2];
+        const rotatedRest = rest.replace(/\d/g, d => String((Number(d) + shift) % 10));
+        return prefix + rotatedRest;
+      }
+
+      const parts = s.split(/\s+/);
+      if (parts.length <= 1) return s;
+      const prefixToken = parts.shift();
+      const restJoined = parts.join(' ');
+      const rotatedRest = restJoined.replace(/\d/g, d => String((Number(d) + shift) % 10));
+      return prefixToken + ' ' + rotatedRest;
+    }
+
+    // -----------------------------
+    // DOM refs
+    // -----------------------------
     const team1Form = document.getElementById('team1-form');
     const team2Form = document.getElementById('team2-form');
+
     const filterBtn = document.getElementById('filter-btn');
     const resetFiltersBtn = document.getElementById('reset-filters-btn');
     const downloadBtn = document.getElementById('download-btn');
     const clearCacheBtn = document.getElementById('clear-cache-btn');
-    const dataTable = document.getElementById('data-table').querySelector('tbody');
 
+    const dataTable = document.getElementById('data-table').querySelector('tbody');
     const targetsTableBody = document.getElementById('targets-table').querySelector('tbody');
 
-    // Toggle Filters
     const toggleFiltersBtn = document.getElementById('toggle-filters-btn');
     const filtersContent = document.getElementById('filters-content');
 
+    const toggleSettingsBtn = document.getElementById('toggle-settings-btn');
+    const settingsContent = document.getElementById('settings-content');
+
+    const rotInput = document.getElementById('settings-rot');
+
+    // Calibration DOM
+    const calTbody = document.getElementById('calibration-tbody');
+    const calAddBtn = document.getElementById('calibration-add-btn');
+    const calClearBtn = document.getElementById('calibration-clear-btn');
+
+    // -----------------------------
+    // Toggle UI
+    // -----------------------------
     toggleFiltersBtn.addEventListener('click', function () {
       filtersContent.classList.toggle('show');
     });
 
+    toggleSettingsBtn.addEventListener('click', function () {
+      settingsContent.classList.toggle('show');
+    });
+
+    // -----------------------------
+    // ROT input behavior
+    // -----------------------------
+    rotInput.value = String(getRot());
+    rotInput.addEventListener('input', function () {
+      let v = rotInput.value.replace(/[^\d]/g, '');
+      if (v === '') v = '0';
+      v = String(Math.min(9, Math.max(0, parseInt(v, 10) || 0)));
+      rotInput.value = v;
+      setRot(v);
+    });
+
+    // -----------------------------
+    // Calibration
+    // -----------------------------
+    function saveCalibration() {
+      localStorage.setItem(CAL_STORAGE_KEY, JSON.stringify(calibrationRows));
+    }
+
+    function makeRowId() {
+      return 'cal_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function renderCalibrationTable() {
+      calTbody.innerHTML = '';
+      if (!Array.isArray(calibrationRows)) calibrationRows = [];
+
+      calibrationRows.forEach((row) => {
+        const tr = document.createElement('tr');
+        tr.dataset.rowId = row.id;
+
+        tr.innerHTML = `
+          <td><input type="text" value="${escapeHtml(row.freqStart ?? '')}" placeholder="e.g., 30.00" /></td>
+          <td><input type="text" value="${escapeHtml(row.freqEnd ?? '')}" placeholder="e.g., 30.50" /></td>
+          <td><input type="text" value="${escapeHtml(row.system ?? '')}" placeholder="e.g., System A" /></td>
+          <td><input type="text" value="${escapeHtml(row.km5 ?? '')}" placeholder="" /></td>
+          <td><input type="text" value="${escapeHtml(row.km10 ?? '')}" placeholder="" /></td>
+          <td style="white-space:nowrap;">
+            <button type="button" class="btn-secondary btn-small cal-update-btn">Update</button>
+          </td>
+        `;
+        calTbody.appendChild(tr);
+      });
+    }
+
+    calAddBtn.addEventListener('click', function () {
+      calibrationRows.push({
+        id: makeRowId(),
+        freqStart: '',
+        freqEnd: '',
+        system: '',
+        km5: '',
+        km10: ''
+      });
+      saveCalibration();
+      renderCalibrationTable();
+    });
+
+    calClearBtn.addEventListener('click', function () {
+      if (confirm('Clear all calibration rows?')) {
+        calibrationRows = [];
+        saveCalibration();
+        renderCalibrationTable();
+      }
+    });
+
+    calTbody.addEventListener('click', function (e) {
+      const btn = e.target.closest('.cal-update-btn');
+      if (!btn) return;
+
+      const tr = btn.closest('tr');
+      if (!tr) return;
+
+      const rowId = tr.dataset.rowId;
+      const inputs = tr.querySelectorAll('input');
+      if (inputs.length < 5) return;
+
+      const updated = {
+        id: rowId,
+        freqStart: inputs[0].value.trim(),
+        freqEnd: inputs[1].value.trim(),
+        system: inputs[2].value.trim(),
+        km5: inputs[3].value.trim(),
+        km10: inputs[4].value.trim()
+      };
+
+      const idx = calibrationRows.findIndex(r => r.id === rowId);
+      if (idx === -1) return;
+
+      calibrationRows[idx] = updated;
+      saveCalibration();
+
+      btn.textContent = 'Saved';
+      setTimeout(() => { btn.textContent = 'Update'; }, 650);
+    });
+
+    // -----------------------------
+    // Data Table Rendering
+    // -----------------------------
     function renderTable(data) {
       dataTable.innerHTML = '';
-      data.forEach(({ time, team, mgrs, lob, frequency }) => {
+      data.forEach(({ time, team, mgrs, lob, frequency, rssi }) => {
         const row = document.createElement('tr');
         row.innerHTML = `
           <td>${time}</td>
@@ -405,29 +747,35 @@
           <td>${mgrs}</td>
           <td>${lob}</td>
           <td>${frequency}</td>
+          <td>${rssi ?? ''}</td>
         `;
         dataTable.appendChild(row);
       });
     }
 
-    function submitData(team, mgrsId, lobId, frequencyId) {
-      const mgrs = document.getElementById(mgrsId).value.trim();
+    function submitData(team, mgrsId, lobId, frequencyId, rssiId) {
+      const mgrsRaw = document.getElementById(mgrsId).value.trim();
       const lob = parseFloat(document.getElementById(lobId).value);
       const frequency = document.getElementById(frequencyId).value.trim();
+      const rssi = document.getElementById(rssiId).value.trim();
       const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
 
-      if (!mgrs || isNaN(lob) || !frequency) {
+      if (!mgrsRaw || isNaN(lob) || !frequency || !rssi) {
         alert('Please fill all fields.');
         return;
       }
 
-      const newEntry = { time, team, mgrs, lob, frequency };
+      const rot = getRot();
+      const mgrs = applyRotToMgrs(mgrsRaw, rot);
+
+      const newEntry = { time, team, mgrs, lob, frequency, rssi };
       cachedData.push(newEntry);
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(cachedData));
 
-      document.getElementById(mgrsId).value = mgrs;
+      document.getElementById(mgrsId).value = mgrsRaw; // keep unrotated visible
       document.getElementById(lobId).value = '';
       document.getElementById(frequencyId).value = '';
+      document.getElementById(rssiId).value = '';
 
       renderTable(cachedData);
       updateTargets();
@@ -435,14 +783,17 @@
 
     team1Form.addEventListener('submit', function (e) {
       e.preventDefault();
-      submitData('Team #1', 'team1-mgrs', 'team1-lob', 'team1-frequency');
+      submitData('Team #1', 'team1-mgrs', 'team1-lob', 'team1-frequency', 'team1-rssi');
     });
 
     team2Form.addEventListener('submit', function (e) {
       e.preventDefault();
-      submitData('Team #2', 'team2-mgrs', 'team2-lob', 'team2-frequency');
+      submitData('Team #2', 'team2-mgrs', 'team2-lob', 'team2-frequency', 'team2-rssi');
     });
 
+    // -----------------------------
+    // Filters
+    // -----------------------------
     function applyFilters() {
       const startTime = document.getElementById('filter-start-time').value;
       const endTime = document.getElementById('filter-end-time').value;
@@ -484,6 +835,9 @@
       renderTable(cachedData);
     });
 
+    // -----------------------------
+    // Cache controls
+    // -----------------------------
     clearCacheBtn.addEventListener('click', function () {
       if (confirm('Are you sure you want to clear all cached data?')) {
         cachedData = [];
@@ -499,9 +853,9 @@
         return;
       }
 
-      const headers = ['Time', 'Team', 'MGRS Position', 'Line of Bearing (LOB)', 'Frequency'];
+      const headers = ['Time', 'Team', 'MGRS Position', 'Line of Bearing (LOB)', 'Frequency', 'RSSI'];
       const csvContent = [headers.join(','), ...cachedData.map(entry =>
-        `${entry.time},${entry.team},${entry.mgrs},${entry.lob},${entry.frequency}`
+        `${entry.time},${entry.team},${entry.mgrs},${entry.lob},${entry.frequency},${entry.rssi}`
       )].join('\n');
 
       const blob = new Blob([csvContent], { type: 'text/csv' });
@@ -516,12 +870,12 @@
     });
 
     // -----------------------------
-    // Targets Logic
+    // Targets Logic (unchanged)
     // -----------------------------
     const LOB_LENGTH_METERS = 50 * 1609.344; // 50 miles
     const FREQ_TOL = 0.25;
     const MIN_ANGLE_DEG = 5;
-    const MERGE_INTERSECTION_METERS = 100; // within 100m is same target
+    const MERGE_INTERSECTION_METERS = 100;
 
     function normalizeAngle(deg) {
       let a = deg % 360;
@@ -539,7 +893,6 @@
       return m ? parseFloat(m[0]) : NaN;
     }
 
-    // Web Mercator projection helpers
     const R = 6378137;
 
     function lonLatToMercatorMeters(lon, lat) {
@@ -569,7 +922,6 @@
       const az = normalizeAngle(parseFloat(entry.lob));
       const rad = az * Math.PI / 180;
 
-      // azimuth: 0 = north (+y), 90 = east (+x)
       const dx = Math.sin(rad);
       const dy = Math.cos(rad);
 
@@ -612,7 +964,18 @@
       return h * 60 + m;
     }
 
-    // Stores last computed targets so the View buttons can reference them
+    function haversineKm(lon1, lat1, lon2, lat2) {
+      const toRad = d => d * Math.PI / 180;
+      const Rm = 6371008.8;
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return (Rm * c) / 1000;
+    }
+
     let lastTargets = [];
 
     function updateTargets() {
@@ -635,7 +998,7 @@
         entries.push({ ...e, _idx: i, _freqNum: f, _lobNum: lob });
       }
 
-      const targets = []; // {point, freq, entryIdxSet, times}
+      const targets = [];
       for (let i = 0; i < entries.length; i++) {
         for (let j = i + 1; j < entries.length; j++) {
           const a = entries[i];
@@ -665,12 +1028,7 @@
           }
 
           if (!merged) {
-            merged = {
-              point: inter,
-              freq: freqMid,
-              entryIdxSet: new Set(),
-              times: new Set()
-            };
+            merged = { point: inter, freq: freqMid, entryIdxSet: new Set(), times: new Set() };
             targets.push(merged);
           }
 
@@ -723,6 +1081,7 @@
     const modalTitle = document.getElementById('target-modal-title');
     const canvas = document.getElementById('target-canvas');
     const ctx = canvas.getContext('2d');
+    const targetDistanceList = document.getElementById('target-distance-list');
 
     let currentTargetIndex = null;
 
@@ -736,6 +1095,7 @@
       modalOverlay.setAttribute('aria-hidden', 'true');
       currentTargetIndex = null;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      targetDistanceList.innerHTML = '';
     }
 
     closeModalBtn.addEventListener('click', closeModal);
@@ -769,29 +1129,55 @@
 
       modalTitle.textContent = `Target Viewer — ${t.mgrs} — Freq ${t.freq.toFixed(2)} — LOBs ${t.lobCount}`;
 
-      // Only essentials: intersection + original MGRS points + short LOBs (cut off)
       const obs = t.entryIdxs.map(i => cachedData[i]).filter(Boolean);
+      const intersection = t.point;
+      const intersectionLL = mercatorMetersToLonLat(intersection.x, intersection.y);
 
       const origins = [];
+      const distanceRows = [];
+
       for (const o of obs) {
         try {
-          const p = mgrsToXY(o.mgrs);
-          origins.push({ x: p.x, y: p.y, label: `${o.team} ${o.time}` });
-        } catch (err) {
-          // skip invalid
-        }
+          const ll = window.mgrs.toPoint(String(o.mgrs).trim());
+          const km = haversineKm(ll[0], ll[1], intersectionLL.lon, intersectionLL.lat);
+          const p = lonLatToMercatorMeters(ll[0], ll[1]);
+
+          origins.push({ x: p.x, y: p.y, label: `${o.team} ${o.time} — ${km.toFixed(2)} km` });
+          distanceRows.push({ team: o.team, time: o.time, mgrs: o.mgrs, km });
+        } catch (err) {}
       }
 
-      const intersection = t.point;
+      distanceRows.sort((a, b) => a.km - b.km);
+      if (!distanceRows.length) {
+        targetDistanceList.innerHTML = `<div style="font-size:13px;color:#555;">No valid source points to calculate distance.</div>`;
+      } else {
+        targetDistanceList.innerHTML = `
+          <table>
+            <thead>
+              <tr>
+                <th>Team</th>
+                <th>Time</th>
+                <th>Source MGRS</th>
+                <th>Distance (km)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${distanceRows.map(r => `
+                <tr>
+                  <td>${r.team}</td>
+                  <td>${r.time}</td>
+                  <td>${r.mgrs}</td>
+                  <td>${r.km.toFixed(2)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+      }
 
-      // Center the view on the intersection.
-      // Use radius based on farthest origin distance from intersection (with padding).
       let maxD = 0;
-      for (const p of origins) {
-        maxD = Math.max(maxD, distMeters(p, intersection));
-      }
-      // Minimum radius so it doesn't zoom too far in; also add padding
-      const radius = Math.max(500, maxD * 1.25); // meters
+      for (const p of origins) maxD = Math.max(maxD, distMeters(p, intersection));
+      const radius = Math.max(500, maxD * 1.25);
 
       const minX = intersection.x - radius;
       const maxX = intersection.x + radius;
@@ -803,7 +1189,6 @@
 
       const W = canvas.width;
       const H = canvas.height;
-
       const scale = Math.min(W / worldW, H / worldH);
 
       function worldToCanvas(p) {
@@ -812,10 +1197,8 @@
         return { x: cx, y: cy };
       }
 
-      // Clear
       ctx.clearRect(0, 0, W, H);
 
-      // Draw a faint crosshair at the center (intersection-centered view)
       const ic = worldToCanvas(intersection);
       ctx.save();
       ctx.globalAlpha = 0.15;
@@ -829,15 +1212,12 @@
       ctx.stroke();
       ctx.restore();
 
-      // Draw short LOB lines: from origin toward intersection, but cut off (no full 50mi ray)
-      // We'll draw only up to the intersection (or stop a tiny bit short so the dot is visible).
       ctx.save();
       ctx.lineWidth = 2;
       origins.forEach((p) => {
         const a = worldToCanvas(p);
         const b = worldToCanvas(intersection);
 
-        // stop short by 10px so intersection marker stands out
         const vx = b.x - a.x;
         const vy = b.y - a.y;
         const len = Math.hypot(vx, vy);
@@ -854,7 +1234,6 @@
       });
       ctx.restore();
 
-      // Draw origin points + labels
       ctx.save();
       ctx.font = '12px Arial';
       ctx.textBaseline = 'top';
@@ -867,7 +1246,6 @@
       });
       ctx.restore();
 
-      // Draw intersection point (big + labeled)
       ctx.save();
       ctx.beginPath();
       ctx.arc(ic.x, ic.y, 9, 0, Math.PI * 2);
@@ -877,9 +1255,12 @@
       ctx.restore();
     }
 
+    // -----------------------------
     // Initial render
+    // -----------------------------
     renderTable(cachedData);
     updateTargets();
+    renderCalibrationTable();
   </script>
 </body>
 </html>
